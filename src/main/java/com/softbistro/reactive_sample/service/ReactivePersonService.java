@@ -18,30 +18,27 @@ public class ReactivePersonService {
 	private ReactivePersonRepository personRepository;
 
 	public Flux<Person> listPerson() {
-		return personRepository.findAll().log();
+		return personRepository.findAll();
 	}
 
 	public Flux<Person> findByFirstName(String firstName) {
-		return personRepository.findByFirstName(firstName).doOnNext(person -> System.out.println("In NEXT:" + person))
-				.doOnComplete(() -> System.out.println("Retrieving completed")).log();
+		return personRepository.findByFirstName(firstName);
 	}
 
 	public Mono<Person> createPerson(Person person) {
-		return personRepository.insert(person).log()
-				.doOnError(throwable -> System.err.println("Error while creating object"));
+		return personRepository.insert(person);
 	}
 
 	public Flux<Person> createManyPersons(List<Person> persons) {
-		return personRepository.saveAll(persons).log()
-				.doOnError(throwable -> System.err.println("Error while creating object"));
+		return personRepository.saveAll(persons);
 	}
 
 	public Mono<Void> deletePersonById(String id) {
-		return personRepository.deleteById(id).log();
+		return personRepository.deleteById(id);
 	}
 
 	public Mono<Person> updatePerson(Person person) {
-		return personRepository.save(person).log();
+		return personRepository.save(person);
 	}
 
 }
