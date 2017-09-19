@@ -13,22 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softbistro.reactive_sample.component.entities.Person;
-import com.softbistro.reactive_sample.service.PersonService;
+import com.softbistro.reactive_sample.service.ReactivePersonService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/person")
-public class PersonController {
+@RequestMapping("/reactive/person")
+public class ReactivePersonController {
 
 	@Autowired
-	private PersonService personService;
-
-	@GetMapping("/random")
-	public Flux<Integer> generateRandom() {
-		return Flux.range(0, 100);
-	}
+	private ReactivePersonService personService;
 
 	@GetMapping("/findByName")
 	public Flux<Person> findByFirstName(@RequestParam String firstName) {
@@ -36,28 +31,38 @@ public class PersonController {
 	}
 
 	@PostMapping("/create")
-	public Mono<Void> createPerson(@RequestBody Person person) {
+	public Mono<Person> createPerson(@RequestBody Person person) {
 		return personService.createPerson(person);
 	}
-	
+
 	@PostMapping("/createMany")
-	public Mono<Void> createManyPersons(@RequestBody List<Person> persons) {
+	public Flux<Person> createManyPersons(@RequestBody List<Person> persons) {
 		return personService.createManyPersons(persons);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public Mono<Void> deletePersonById(@PathVariable Integer id) {
+	public Mono<Void> deletePersonById(@PathVariable String id) {
 		return personService.deletePersonById(id);
 	}
 
 	@PostMapping("/update")
-	public Mono<Void> updatePerson(@RequestBody Person person) {
+	public Mono<Person> updatePerson(@RequestBody Person person) {
 		return personService.updatePerson(person);
 	}
 
-	@GetMapping("/all")
-	public Flux<Person> listPerson() {
+	@GetMapping("/allMono")
+	public Mono<List<Person>> listPerson() {
+		return personService.listPerson().collectList();
+	}
+	
+	@GetMapping("/allFlux")
+	public Flux<Person> listPersonFlux() {
 		return personService.listPerson();
 	}
 
+	@PostMapping("/post")
+	public Flux<Person> postFilteredToDB(@RequestBody Flux<Person> persons) {
+		System.out.println("In main");
+		return persons.take(5);
+	}
 }

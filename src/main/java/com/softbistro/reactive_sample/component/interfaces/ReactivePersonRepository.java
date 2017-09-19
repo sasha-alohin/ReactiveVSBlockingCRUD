@@ -6,6 +6,6 @@ import com.softbistro.reactive_sample.component.entities.Person;
 
 import reactor.core.publisher.Flux;
 
-public interface PersonRepository extends ReactiveMongoRepository<Person, Integer>{
+public interface ReactivePersonRepository extends ReactiveMongoRepository<Person, String>{
 	public Flux<Person> findByFirstName(String firstName);
 }
