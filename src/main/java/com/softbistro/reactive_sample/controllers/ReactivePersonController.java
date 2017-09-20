@@ -54,15 +54,10 @@ public class ReactivePersonController {
 	public Mono<List<Person>> listPerson() {
 		return personService.listPerson().collectList();
 	}
-	
+
 	@GetMapping("/allFlux")
 	public Flux<Person> listPersonFlux() {
 		return personService.listPerson();
 	}
 
-	@PostMapping("/post")
-	public Flux<Person> postFilteredToDB(@RequestBody Flux<Person> persons) {
-		System.out.println("In main");
-		return persons.take(5);
-	}
 }

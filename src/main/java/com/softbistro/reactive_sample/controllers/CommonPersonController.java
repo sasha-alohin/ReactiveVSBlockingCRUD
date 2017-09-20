@@ -3,8 +3,6 @@ package com.softbistro.reactive_sample.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.softbistro.reactive_sample.component.entities.Person;
 import com.softbistro.reactive_sample.service.CommonPersonService;
-import com.softbistro.reactive_sample.service.ReactivePersonService;
-
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/common/person")
@@ -56,12 +50,6 @@ public class CommonPersonController {
 	@GetMapping("/all")
 	public List<Person> listPerson() {
 		return personService.listPerson();
-	}
-
-	@PostMapping("/post")
-	public List<Person> postFilteredToDB(@RequestBody List<Person> persons) {
-		System.out.println("In main");
-		return persons;
 	}
 
 }
