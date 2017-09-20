@@ -1,0 +1,2 @@
+# ReactiveVSBlockingCRUD
+The main purpose of the project was to investigate performance of CRUD operations based on blocking and non-blocking operations. I chose MongoDB database for . For this purpose there were chosen MongoRepository and ReactiveMongoRepository. Application was running on server and load testing performed on local machine with Apache Jmeter. Based on results, i can say that operations with non-reactive style were performed faster than in reactive semantic. File with test result atached to repository.
